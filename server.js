@@ -1,8 +1,8 @@
 import express from "express";
 import http from "http";
 import dotenv from "dotenv";
-import taskRouter from "./routes/taskRoute.js"
-import connectDb from "./config/dbConnect.js"
+import taskRouter from "./routes/taskRoute.js";
+import connectDb from "./config/dbConnect.js";
 import errorHandler from "./middleware/errorHandler.js";
 import cors from "cors";
 
@@ -12,12 +12,18 @@ connectDb();
 const app = express();
 const server = http.createServer(app);
 
-const PORT = process.env.PORT ;
+const PORT = process.env.PORT;
 
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
 
-app.use("/api",taskRouter);
+app.use("/api", taskRouter);
 
 app.use(errorHandler);
 
