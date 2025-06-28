@@ -1,4 +1,4 @@
-import { Timestamp } from "bson";
+
 import mongoose from "mongoose";
 const userSchema = mongoose.Schema({
 
@@ -14,7 +14,11 @@ const userSchema = mongoose.Schema({
      password:{
         type:String,
         required:[true,"please enter the password"]
-    }
+    },
+    
+  avatar :{
+        Type:String
+    },   
 },
 {
     timestamps:true

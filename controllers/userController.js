@@ -3,6 +3,10 @@ import user from "../models/userModel.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
+
+
+
+
 export const registerUser = asyncHandler(async (req, res) => {
   const { username, email, password } = req.body;
   if (!username || !email || !password) {
@@ -54,6 +58,7 @@ export const loginUser = asyncHandler(async (req, res) => {
         username: User.username,
         email: User.email,
         id: User.id,
+       
       },
     });
   } else {
@@ -63,14 +68,35 @@ export const loginUser = asyncHandler(async (req, res) => {
 });
 
 export const currentUser = asyncHandler((req, res) => {
-    res.json(req.User)
-  res.status(200).json({
-    msg: "current user info ",
-  });
-});
 
+  res.status(200).json({
+     User: {
+        username: User.username,
+        email: User.email,
+        id: User.id,
+        avatar:User.avatar,
+      },
+  }); })
+
+
+  export const singleUser= asyncHandler(async(req,res)=>{
+        const userId = req.params.id;
+        const User = await user.findById(userId);
+        if (!User) {
+          res.status(404);
+          throw new Error("User not found");
+        }
+        res.status(200).json(User)
+
+  })
+  
+
+
+
+// export const profile = asyncHandler((re))
 export default {
   registerUser,
   loginUser,
   currentUser,
+  singleUser
 };
